@@ -1,14 +1,15 @@
 // TODO: Include packages needed for this application
-const fs = require("fs");
 const inquirer = require("inquirer");
+const fs = require("fs");
+// const utils = require("utils");
 const generateReadme = require("./utils/generateMarkdown");
+const generateMarkdown = require("./utils/generateMarkdown");
 // TODO: Create an array of questions for user input
-const questions = () => {
-    return inquirer.prompt([
+const questions = [
         {
             type: "input",
-            name: "name",
-            message: "What is the name of your project? (Required)",
+            name: "title",
+            message: "What is the title of your project? (Required)",
             validate: nameInput => {
                 if (nameInput) {
                     return true
@@ -19,44 +20,66 @@ const questions = () => {
             }
         },
         {
-            type: "confirm",
-            name: "confirmDescription",
-            message: "Do you want to include a description at the top of your README.md?",
-            default: true
-        },
-        {
             type: "input",
             name: "description",
             message: "Provide description.",
             when: ({ confirmDescription }) => confirmDescription
         },
         {
+          type: "input"  ,
+          name: "installation",
+          message: "What is required to install this?"
+        },
+        {
+            type: "input",
+            name: "usage",
+            message: "What is its usage?"
+        },
+        {
+            type: "input",
+            name: "contributors",
+            message: "Please list any contributors"
+        },
+        {
+            type: "input",
+            name: "test",
+            message: "What are the test instructions?"
+        },
+        {
             type: "checkbox",
             name: "license",
             message: "What license did you use?",
-            choices: ["MIT", "BSD", "ISC"]
-            
-        }
-    ]
-    ).then();
-};
-
+            choices: ["MIT", "BSD", "ISC", "Apache", "GNU", "N/A"]  
+        },
+        {
+            type: "input",
+            name: "github",
+            message: "Please provide your GitHub username"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Please provide an email where you can be reached."
+        },
+    ];
+inquirer.prompt(questions)
+.then(function(data){
+    const githubUrl = `https://github.com/${github}`
+})
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    return fs.writeFile(fileName, data, (err) => {
+    fs.writeFile("README.md", generate(data), (err) => {
         if (err) {
-            throw Error(err)
+            return console.log(err)
+        } else {
+            console.log("Your README has been created!")
         }
     })
 }
 
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(questions)
-        .then(answers => {
-            const generate = generateReadme(answers)
-            writeToFile("README.md", generate)
-        })
+    
 }
 
 // Function call to initialize app
