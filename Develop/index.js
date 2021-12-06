@@ -23,7 +23,6 @@ const questions = [
         type: "input",
         name: "description",
         message: "Provide description.",
-        when: ({ confirmDescription }) => confirmDescription
     },
     {
       type: "input"  ,
@@ -49,12 +48,17 @@ const questions = [
         type: "checkbox",
         name: "license",
         message: "What license did you use?",
-        choices: ["MIT", "BSD", "ISC", "Apache", "GNU", "N/A"]  
+        choices: [
+            {name: "MIT"},
+            {name: "BSD" },
+            {name: "ISC"},
+            {name: "Apache"}, {name: "GNU"},
+            {name: "N/A"} ]  
     },
     {
         type: "input",
         name: "github",
-        message: "Please provide your GitHub username"
+        message: "Please provide your GitHub username."
     },
     {
         type: "input",
@@ -63,10 +67,6 @@ const questions = [
     },
 ];
 
-// inquirer.prompt(questions)
-// .then(function(data){
-//     const githubUrl = `https://github.com/${github}`
-// })
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, (err) => {
